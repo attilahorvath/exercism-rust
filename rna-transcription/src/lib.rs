@@ -16,20 +16,12 @@ impl DeoxyribonucleicAcid {
     }
 
     pub fn to_rna(&self) -> Result<RibonucleicAcid, &'static str> {
-        let mut valid = true;
-
-        let rna = self.0.chars().map(|c| match c {
-            'G' => 'C',
-            'C' => 'G',
-            'T' => 'A',
-            'A' => 'U',
-            _ => { valid = false; ' ' }
-        }).collect();
-
-        if valid {
-            Ok(RibonucleicAcid(rna))
-        } else {
-            Err("Invalid DNA strand")
-        }
+        self.0.chars().map(|c| match c {
+            'G' => Ok('C'),
+            'C' => Ok('G'),
+            'T' => Ok('A'),
+            'A' => Ok('U'),
+            _ => Err("Invalid DNA strand")
+        }).collect::<Result<String, &'static str>>().map(RibonucleicAcid)
     }
 }
