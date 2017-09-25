@@ -1,9 +1,23 @@
+use std::iter::FromIterator;
+
 #[derive(PartialEq, Debug)]
 pub struct RibonucleicAcid(String);
 
 impl RibonucleicAcid {
     pub fn new(rna: &str) -> RibonucleicAcid {
         RibonucleicAcid(rna.into())
+    }
+}
+
+impl FromIterator<char> for RibonucleicAcid {
+    fn from_iter<I: IntoIterator<Item=char>>(iter: I) -> Self {
+        let mut rna = String::new();
+
+        for c in iter {
+            rna.push(c);
+        }
+
+        RibonucleicAcid(rna)
     }
 }
 
@@ -22,6 +36,6 @@ impl DeoxyribonucleicAcid {
             'T' => Ok('A'),
             'A' => Ok('U'),
             _ => Err("Invalid DNA strand")
-        }).collect::<Result<String, &'static str>>().map(RibonucleicAcid)
+        }).collect::<Result<RibonucleicAcid, &'static str>>()
     }
 }
