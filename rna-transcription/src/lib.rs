@@ -30,6 +30,6 @@ impl DeoxyribonucleicAcid {
             'T' => Ok('A'),
             'A' => Ok('U'),
             _ => Err("Invalid DNA strand")
-        }).collect::<Result<_, _>>()
+        }).collect()
     }
 }
