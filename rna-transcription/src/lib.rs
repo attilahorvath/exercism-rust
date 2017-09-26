@@ -11,13 +11,7 @@ impl RibonucleicAcid {
 
 impl FromIterator<char> for RibonucleicAcid {
     fn from_iter<I: IntoIterator<Item=char>>(iter: I) -> Self {
-        let mut rna = String::new();
-
-        for c in iter {
-            rna.push(c);
-        }
-
-        RibonucleicAcid(rna)
+        RibonucleicAcid(iter.into_iter().collect())
     }
 }
 
@@ -36,6 +30,6 @@ impl DeoxyribonucleicAcid {
             'T' => Ok('A'),
             'A' => Ok('U'),
             _ => Err("Invalid DNA strand")
-        }).collect::<Result<RibonucleicAcid, &'static str>>()
+        }).collect::<Result<_, _>>()
     }
 }
