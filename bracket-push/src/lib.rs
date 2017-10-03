@@ -1,12 +1,12 @@
-pub struct Brackets(String);
+pub struct Brackets<'a>(&'a str);
 
-impl<'a> From<&'a str> for Brackets {
-    fn from(string: &str) -> Self {
-        Brackets(string.into())
+impl<'a> From<&'a str> for Brackets<'a> {
+    fn from(brackets: &'a str) -> Self {
+        Brackets(brackets)
     }
 }
 
-impl Brackets {
+impl<'a> Brackets<'a> {
     pub fn are_balanced(&self) -> bool {
         let mut stack = Vec::new();
 
