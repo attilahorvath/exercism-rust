@@ -2,12 +2,12 @@ extern crate acronym;
 
 #[test]
 fn basic() {
-  assert_eq!(acronym::abbreviate("Portable Network Graphics"), "PNG");
+    assert_eq!(acronym::abbreviate("Portable Network Graphics"), "PNG");
 }
 
 #[test]
 fn lowercase_words() {
-  assert_eq!(acronym::abbreviate("Ruby on Rails"), "ROR");
+    assert_eq!(acronym::abbreviate("Ruby on Rails"), "ROR");
 }
 
 #[test]
@@ -27,11 +27,16 @@ fn all_caps_words() {
 
 #[test]
 fn non_acronym_all_caps_word() {
-    assert_eq!(acronym::abbreviate("GNU Image Manipulation Program"), "GIMP");
+    assert_eq!(
+        acronym::abbreviate("GNU Image Manipulation Program"),
+        "GIMP"
+    );
 }
 
 #[test]
 fn hyphenated() {
-    assert_eq!(acronym::abbreviate("Complementary metal-oxide semiconductor"),
-               "CMOS");
+    assert_eq!(
+        acronym::abbreviate("Complementary metal-oxide semiconductor"),
+        "CMOS"
+    );
 }

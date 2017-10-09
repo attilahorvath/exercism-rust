@@ -7,9 +7,9 @@ impl Triangle {
 
         if sides.contains(&0) {
             Err("Triangle with zero length side is illegal")
-        } else if sides[0] + sides[1] < sides[2] ||
-                  sides[0] + sides[2] < sides[1] ||
-                  sides[1] + sides[2] < sides[0] {
+        } else if sides[0] + sides[1] < sides[2] || sides[0] + sides[2] < sides[1] ||
+                   sides[1] + sides[2] < sides[0]
+        {
             Err("Triangle inequality violated")
         } else {
             Ok(Triangle(sides[0], sides[1], sides[2]))

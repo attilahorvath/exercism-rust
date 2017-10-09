@@ -10,7 +10,7 @@ impl RibonucleicAcid {
 }
 
 impl FromIterator<char> for RibonucleicAcid {
-    fn from_iter<I: IntoIterator<Item=char>>(iter: I) -> Self {
+    fn from_iter<I: IntoIterator<Item = char>>(iter: I) -> Self {
         RibonucleicAcid(iter.into_iter().collect())
     }
 }
@@ -24,12 +24,15 @@ impl DeoxyribonucleicAcid {
     }
 
     pub fn to_rna(&self) -> Result<RibonucleicAcid, &'static str> {
-        self.0.chars().map(|c| match c {
-            'G' => Ok('C'),
-            'C' => Ok('G'),
-            'T' => Ok('A'),
-            'A' => Ok('U'),
-            _ => Err("Invalid DNA strand")
-        }).collect()
+        self.0
+            .chars()
+            .map(|c| match c {
+                'G' => Ok('C'),
+                'C' => Ok('G'),
+                'T' => Ok('A'),
+                'A' => Ok('U'),
+                _ => Err("Invalid DNA strand"),
+            })
+            .collect()
     }
 }

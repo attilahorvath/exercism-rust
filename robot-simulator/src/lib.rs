@@ -8,14 +8,17 @@ pub enum Direction {
 
 pub struct Robot {
     position: (isize, isize),
-    direction: Direction
+    direction: Direction,
 }
 
 use Direction::*;
 
 impl Robot {
     pub fn new(x: isize, y: isize, direction: Direction) -> Self {
-        Self { position: (x, y), direction: direction }
+        Self {
+            position: (x, y),
+            direction: direction,
+        }
     }
 
     pub fn turn_right(mut self) -> Self {
@@ -23,7 +26,7 @@ impl Robot {
             North => East,
             East => South,
             South => West,
-            West => North
+            West => North,
         };
 
         self
@@ -34,7 +37,7 @@ impl Robot {
             North => West,
             East => North,
             South => East,
-            West => South
+            West => South,
         };
 
         self
@@ -45,7 +48,7 @@ impl Robot {
             North => (self.position.0, self.position.1 + 1),
             East => (self.position.0 + 1, self.position.1),
             South => (self.position.0, self.position.1 - 1),
-            West => (self.position.0 - 1, self.position.1)
+            West => (self.position.0 - 1, self.position.1),
         };
 
         self
@@ -57,7 +60,7 @@ impl Robot {
                 'R' => self.turn_right(),
                 'L' => self.turn_left(),
                 'A' => self.advance(),
-                _ => self
+                _ => self,
             };
         }
 

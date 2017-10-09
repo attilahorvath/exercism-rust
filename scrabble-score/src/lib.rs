@@ -1,6 +1,7 @@
 pub fn score(word: &str) -> u32 {
-    word.to_lowercase().chars().map(|c| {
-        match c {
+    word.to_lowercase()
+        .chars()
+        .map(|c| match c {
             'a' | 'e' | 'i' | 'o' | 'u' | 'l' | 'n' | 'r' | 's' | 't' => 1,
             'd' | 'g' => 2,
             'b' | 'c' | 'm' | 'p' => 3,
@@ -8,7 +9,7 @@ pub fn score(word: &str) -> u32 {
             'k' => 5,
             'j' | 'x' => 8,
             'q' | 'z' => 10,
-            _ => 0
-        }
-    }).sum()
+            _ => 0,
+        })
+        .sum()
 }

@@ -3,7 +3,7 @@ pub struct CircularBuffer<T>(Vec<T>);
 #[derive(Debug, PartialEq)]
 pub enum Error {
     EmptyBuffer,
-    FullBuffer
+    FullBuffer,
 }
 
 impl<T> CircularBuffer<T> {
@@ -13,7 +13,7 @@ impl<T> CircularBuffer<T> {
 
     pub fn write(&mut self, item: T) -> Result<(), Error> {
         if self.0.len() == self.0.capacity() {
-            return Err(Error::FullBuffer)
+            return Err(Error::FullBuffer);
         }
 
         Ok(self.0.push(item))
@@ -29,7 +29,7 @@ impl<T> CircularBuffer<T> {
 
     pub fn read(&mut self) -> Result<T, Error> {
         if self.0.len() == 0 {
-            return Err(Error::EmptyBuffer)
+            return Err(Error::EmptyBuffer);
         }
 
         Ok(self.0.remove(0))

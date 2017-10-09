@@ -1,5 +1,5 @@
 pub struct PascalsTriangle {
-    row_count: u32
+    row_count: u32,
 }
 
 impl PascalsTriangle {
@@ -21,7 +21,9 @@ impl PascalsTriangle {
 
                 let previous_row = (row_index - 1) as usize;
 
-                row.push(rows[previous_row][(i - 1) as usize] + rows[previous_row][i as usize]);
+                row.push(
+                    rows[previous_row][(i - 1) as usize] + rows[previous_row][i as usize],
+                );
             }
 
             rows.push(row);
