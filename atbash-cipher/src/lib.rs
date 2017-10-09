@@ -9,9 +9,7 @@ fn encode_char(c: char) -> char {
 pub fn encode(text: &str) -> String {
     text.to_lowercase()
         .chars()
-        .filter(|&c| {
-            (c as u8 >= 'a' as u8 && c as u8 <= 'z' as u8) || c.is_numeric()
-        })
+        .filter(|&c| (c >= 'a' && c <= 'z') || c.is_numeric())
         .map(encode_char)
         .collect::<Vec<_>>()
         .chunks(5)
