@@ -84,23 +84,22 @@ impl fmt::Display for Tournament {
             )
         });
 
-        let mut result = vec![
-            format!(
-                "{:30} | {:>2} | {:>2} | {:>2} | {:>2} | {:>2}",
-                "Team",
-                "MP",
-                "W",
-                "D",
-                "L",
-                "P",
-            ),
-        ];
+        write!(
+            f,
+            "{:30} | {:>2} | {:>2} | {:>2} | {:>2} | {:>2}",
+            "Team",
+            "MP",
+            "W",
+            "D",
+            "L",
+            "P",
+        )?;
 
         for team in teams {
-            result.push(team.to_string());
+            write!(f, "\n{}", team)?;
         }
 
-        write!(f, "{}", result.join("\n"))
+        Ok(())
     }
 }
 
