@@ -1,3 +1,4 @@
+use std::fmt;
 use std::collections::HashMap;
 
 struct Team {
@@ -26,9 +27,10 @@ impl Team {
     }
 }
 
-impl ToString for Team {
-    fn to_string(&self) -> String {
-        format!(
+impl fmt::Display for Team {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
             "{:30} | {:2} | {:2} | {:2} | {:2} | {:2}",
             self.name,
             self.matches_played(),
@@ -72,8 +74,8 @@ impl Tournament {
     }
 }
 
-impl ToString for Tournament {
-    fn to_string(&self) -> String {
+impl fmt::Display for Tournament {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let mut teams = self.0.values().collect::<Vec<_>>();
 
         teams.sort_by(|a, b| {
@@ -98,7 +100,7 @@ impl ToString for Tournament {
             result.push(team.to_string());
         }
 
-        result.join("\n")
+        write!(f, "{}", result.join("\n"))
     }
 }
 
