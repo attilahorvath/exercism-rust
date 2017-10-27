@@ -68,40 +68,13 @@ impl Forth {
     pub fn eval(&mut self, input: &str) -> ForthResult {
         let input = input.to_uppercase();
 
-        let mut word_definition = false;
-        let mut definition_tokens = Vec::new();
-
-        for token in input
+        let mut iter = input
             .split(|c: char| c.is_whitespace() || c.is_control())
-            .filter(|s| !s.is_empty())
-        {
-            if !word_definition && token == ":" {
-                word_definition = true;
-            } else if word_definition {
-                if token != ";" {
-                    definition_tokens.push(token);
-                } else {
-                    let mut iter = definition_tokens.clone().into_iter();
+            .filter(|s| !s.is_empty());
 
-                    let word = match iter.next() {
-                        Some(w) => w.to_string(),
-                        None => return Err(Error::InvalidWord),
-                    };
-
-                    if word.chars().any(|c| c.is_numeric()) {
-                        return Err(Error::InvalidWord);
-                    }
-
-                    let definition = iter.collect::<Vec<_>>().join(" ");
-
-                    self.words.insert(
-                        word,
-                        Rc::new(move |forth| forth.eval(&definition)),
-                    );
-
-                    definition_tokens.clear();
-                    word_definition = false;
-                }
+        while let Some(token) = iter.next() {
+            if token == ":" {
+                self.define_word(&mut iter)?;
             } else {
                 match self.words.get(token).cloned() {
                     Some(f) => f(self)?,
@@ -115,9 +88,38 @@ impl Forth {
             }
         }
 
-        if word_definition {
+        Ok(())
+    }
+
+    fn define_word(&mut self, iter: &mut Iterator<Item = &str>) -> ForthResult {
+        let word = match iter.next() {
+            Some(w) => w.to_string(),
+            None => return Err(Error::InvalidWord),
+        };
+
+        if word.chars().any(|c| c.is_numeric()) {
             return Err(Error::InvalidWord);
         }
+
+        let mut terminator_encountered = false;
+
+        let definition = iter.take_while(|&w| {
+            if w == ";" {
+                terminator_encountered = true;
+            }
+
+            w != ";"
+        }).collect::<Vec<_>>()
+            .join(" ");
+
+        if !terminator_encountered {
+            return Err(Error::InvalidWord);
+        }
+
+        self.words.insert(
+            word,
+            Rc::new(move |forth| forth.eval(&definition)),
+        );
 
         Ok(())
     }
