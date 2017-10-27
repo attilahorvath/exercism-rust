@@ -39,46 +39,31 @@ fn basic_arithmetic_2() {
 #[test]
 fn addition_error() {
     let mut f = Forth::new();
-    assert_eq!(
-        Err(Error::StackUnderflow),
-        f.eval("+")
-    );
+    assert_eq!(Err(Error::StackUnderflow), f.eval("+"));
 }
 
 #[test]
 fn subtraction_error() {
     let mut f = Forth::new();
-    assert_eq!(
-        Err(Error::StackUnderflow),
-        f.eval("-")
-    );
+    assert_eq!(Err(Error::StackUnderflow), f.eval("-"));
 }
 
 #[test]
 fn multiplication_error() {
     let mut f = Forth::new();
-    assert_eq!(
-        Err(Error::StackUnderflow),
-        f.eval("*")
-    );
+    assert_eq!(Err(Error::StackUnderflow), f.eval("*"));
 }
 
 #[test]
 fn division_error() {
     let mut f = Forth::new();
-    assert_eq!(
-        Err(Error::StackUnderflow),
-        f.eval("/")
-    );
+    assert_eq!(Err(Error::StackUnderflow), f.eval("/"));
 }
 
 #[test]
 fn division_by_zero() {
     let mut f = Forth::new();
-    assert_eq!(
-        Err(Error::DivisionByZero),
-        f.eval("4 2 2 - /")
-    );
+    assert_eq!(Err(Error::DivisionByZero), f.eval("4 2 2 - /"));
 }
 
 #[test]
@@ -98,10 +83,7 @@ fn dup_case_insensitive() {
 #[test]
 fn dup_error() {
     let mut f = Forth::new();
-    assert_eq!(
-        Err(Error::StackUnderflow),
-        f.eval("dup")
-    );
+    assert_eq!(Err(Error::StackUnderflow), f.eval("dup"));
 }
 
 #[test]
@@ -121,10 +103,7 @@ fn drop_with_two() {
 #[test]
 fn drop_error() {
     let mut f = Forth::new();
-    assert_eq!(
-        Err(Error::StackUnderflow),
-        f.eval("drop")
-    );
+    assert_eq!(Err(Error::StackUnderflow), f.eval("drop"));
 }
 
 #[test]
@@ -144,14 +123,8 @@ fn swap_with_three() {
 #[test]
 fn swap_error() {
     let mut f = Forth::new();
-    assert_eq!(
-        Err(Error::StackUnderflow),
-        f.eval("1 swap")
-    );
-    assert_eq!(
-        Err(Error::StackUnderflow),
-        f.eval("swap")
-    );
+    assert_eq!(Err(Error::StackUnderflow), f.eval("1 swap"));
+    assert_eq!(Err(Error::StackUnderflow), f.eval("swap"));
 }
 
 #[test]
@@ -171,18 +144,11 @@ fn over_with_three() {
 #[test]
 fn over_error() {
     let mut f = Forth::new();
-    assert_eq!(
-        Err(Error::StackUnderflow),
-        f.eval("1 over")
-    );
-    assert_eq!(
-        Err(Error::StackUnderflow),
-        f.eval("over")
-    );
+    assert_eq!(Err(Error::StackUnderflow), f.eval("1 over"));
+    assert_eq!(Err(Error::StackUnderflow), f.eval("over"));
 }
 
 #[test]
-#[ignore]
 fn defining_a_new_word() {
     let mut f = Forth::new();
     assert!(f.eval(": CoUnT 1 2 3 ;").is_ok());
@@ -191,7 +157,6 @@ fn defining_a_new_word() {
 }
 
 #[test]
-#[ignore]
 fn redefining_an_existing_word() {
     let mut f = Forth::new();
     assert!(f.eval(": foo dup ;").is_ok());
@@ -201,7 +166,6 @@ fn redefining_an_existing_word() {
 }
 
 #[test]
-#[ignore]
 fn redefining_an_existing_built_in_word() {
     let mut f = Forth::new();
     assert!(f.eval(": swap dup ;").is_ok());
@@ -210,7 +174,6 @@ fn redefining_an_existing_built_in_word() {
 }
 
 #[test]
-#[ignore]
 fn defining_words_with_odd_characters() {
     let mut f = Forth::new();
     assert!(f.eval(": € 220371 ; €").is_ok());
@@ -218,39 +181,21 @@ fn defining_words_with_odd_characters() {
 }
 
 #[test]
-#[ignore]
 fn defining_a_number() {
     let mut f = Forth::new();
-    assert_eq!(
-        Err(Error::InvalidWord),
-        f.eval(": 1 2 ;")
-    );
+    assert_eq!(Err(Error::InvalidWord), f.eval(": 1 2 ;"));
 }
 
 #[test]
-#[ignore]
 fn malformed_word_definition() {
     let mut f = Forth::new();
-    assert_eq!(
-        Err(Error::InvalidWord),
-        f.eval(":")
-    );
-    assert_eq!(
-        Err(Error::InvalidWord),
-        f.eval(": foo")
-    );
-    assert_eq!(
-        Err(Error::InvalidWord),
-        f.eval(": foo 1")
-    );
+    assert_eq!(Err(Error::InvalidWord), f.eval(":"));
+    assert_eq!(Err(Error::InvalidWord), f.eval(": foo"));
+    assert_eq!(Err(Error::InvalidWord), f.eval(": foo 1"));
 }
 
 #[test]
-#[ignore]
 fn calling_non_existing_word() {
     let mut f = Forth::new();
-    assert_eq!(
-        Err(Error::UnknownWord),
-        f.eval("1 foo")
-    );
+    assert_eq!(Err(Error::UnknownWord), f.eval("1 foo"));
 }
