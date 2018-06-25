@@ -29,12 +29,12 @@ impl SpiralMatrix {
         }
     }
 
-    fn set(&mut self, x: usize, y: usize, value: usize) {
-        self.matrix[y][x] = value;
+    fn set(&mut self, coords: (usize, usize), value: usize) {
+        self.matrix[coords.1][coords.0] = value;
     }
 
-    fn is_empty(&self, x: usize, y: usize) -> bool {
-        self.matrix[y][x] == 0
+    fn is_empty(&self, coords: (usize, usize)) -> bool {
+        self.matrix[coords.1][coords.0] == 0
     }
 }
 
@@ -45,43 +45,42 @@ impl Into<Vec<Vec<usize>>> for SpiralMatrix {
 }
 
 struct MatrixPosition {
-    x: usize,
-    y: usize,
+    coords: (usize, usize),
 }
 
 impl MatrixPosition {
     fn new() -> Self {
-        MatrixPosition { x: 0, y: 0 }
+        MatrixPosition { coords: (0, 0) }
     }
 
-    fn step(&mut self, matrix: &SpiralMatrix, direction: &Direction) -> bool {
-        match direction {
-            Direction::Up => if self.y > 0 && matrix.is_empty(self.x, self.y - 1) {
-                self.y -= 1;
-                true
+    fn step(&self, matrix: &SpiralMatrix, direction: &Direction) -> Option<Self> {
+        let coords = match direction {
+            Direction::Up => if self.coords.1 > 0 {
+                (self.coords.0, self.coords.1 - 1)
             } else {
-                false
+                return None;
             },
-            Direction::Down => if self.y < matrix.size - 1 && matrix.is_empty(self.x, self.y + 1) {
-                self.y += 1;
-                true
+            Direction::Down => if self.coords.1 < matrix.size - 1 {
+                (self.coords.0, self.coords.1 + 1)
             } else {
-                false
+                return None;
             },
-            Direction::Left => if self.x > 0 && matrix.is_empty(self.x - 1, self.y) {
-                self.x -= 1;
-                true
+            Direction::Left => if self.coords.0 > 0 {
+                (self.coords.0 - 1, self.coords.1)
             } else {
-                false
+                return None;
             },
-            Direction::Right => {
-                if self.x < matrix.size - 1 && matrix.is_empty(self.x + 1, self.y) {
-                    self.x += 1;
-                    true
-                } else {
-                    false
-                }
-            }
+            Direction::Right => if self.coords.0 < matrix.size - 1 {
+                (self.coords.0 + 1, self.coords.1)
+            } else {
+                return None;
+            },
+        };
+
+        if matrix.is_empty(coords) {
+            Some(Self { coords })
+        } else {
+            None
         }
     }
 }
@@ -93,11 +92,13 @@ pub fn spiral_matrix(size: usize) -> Vec<Vec<usize>> {
     let mut direction = Direction::Right;
 
     for i in 1..(size.pow(2) + 1) {
-        matrix.set(position.x, position.y, i);
+        matrix.set(position.coords, i);
 
-        if !position.step(&matrix, &direction) {
+        position = if let Some(next_position) = position.step(&matrix, &direction) {
+            next_position
+        } else {
             direction = direction.next();
-            position.step(&matrix, &direction);
+            position.step(&matrix, &direction).unwrap_or(position)
         }
     }
 
