@@ -41,10 +41,7 @@ impl Frame {
         }
     }
 
-    fn score<'a, I>(&self, next_rolls: I) -> u16
-    where
-        I: IntoIterator<Item = &'a u16>,
-    {
+    fn score<'a>(&self, next_rolls: impl IntoIterator<Item = &'a u16>) -> u16 {
         let mut score = self.rolls.iter().sum();
 
         if score == 10 {
