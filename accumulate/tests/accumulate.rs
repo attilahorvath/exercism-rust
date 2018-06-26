@@ -1,13 +1,17 @@
 extern crate accumulate;
 
-use accumulate::{map_function, map_closure};
+use accumulate::{map_closure, map_function};
 
 fn square(x: i32) -> i32 {
     x * x
 }
 
 fn abs_val(x: i32) -> i32 {
-    if x > 0 { x } else { -x }
+    if x > 0 {
+        x
+    } else {
+        -x
+    }
 }
 
 #[test]

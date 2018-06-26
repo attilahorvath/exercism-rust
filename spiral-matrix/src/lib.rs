@@ -91,7 +91,7 @@ pub fn spiral_matrix(size: usize) -> Vec<Vec<usize>> {
     let mut position = MatrixPosition::new();
     let mut direction = Direction::Right;
 
-    for i in 1..(size.pow(2) + 1) {
+    for i in 1..=size.pow(2) {
         matrix.set(position.coords, i);
 
         position = if let Some(next_position) = position.step(&matrix, &direction) {
