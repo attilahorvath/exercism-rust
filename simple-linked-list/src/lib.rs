@@ -85,13 +85,11 @@ impl<T> FromIterator<T> for SimpleLinkedList<T> {
     where
         I: IntoIterator<Item = T>,
     {
-        let mut list = SimpleLinkedList::new();
-
-        for i in iter {
-            list.push(i);
-        }
-
-        list
+        iter.into_iter()
+            .fold(SimpleLinkedList::new(), |mut list, i| {
+                list.push(i);
+                list
+            })
     }
 }
 
